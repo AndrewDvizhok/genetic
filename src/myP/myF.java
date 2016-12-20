@@ -9,6 +9,9 @@ package myP;
  *
  * @author azhidkov
  */
+
+import java.util.Random;
+
 public class myF extends javax.swing.JFrame {
 
     /**
@@ -79,17 +82,20 @@ public class myF extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //myc_point[][] tmaps = new myc_point[100][100];
-        myc_map maps =new myc_map(10,10);
+        myc_map map =new myc_map();
+        //map.surface(10);
         //map.map[0][0].typeground=1;  
         //maps.sizex=1;
         //maps.map[1]=1; 
         //maps.map2[2][2]=2;
         myc_point pnt = new myc_point();
-        for(int i=0; i<10; i++){
-            for (int j=0;j<10;j++){
-                maps.point[i][j]=pnt;
+        for(int i=0; i<map.sizex; i++){
+            for (int j=0;j<map.sizey;j++){
+                map.point[i][j]=pnt;
             }
         }
+        
+        map.surface(10);
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

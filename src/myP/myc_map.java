@@ -4,24 +4,41 @@
  * and open the template in the editor.
  */
 package myP;
-
+import java.util.Random;
 /**
  *
  * @author azhidkov
  */
 public class myc_map {
-    //public myc_point[][] map = new myc_point[10][10];
-    //int[] map = new int[10];
-    //int[][] map2 = new int[10][10];
-    //myc_point[][] point = new myc_point[100][100];
     myc_point[][] point;
-    //myc_point[] point2 = new myc_point[10];
-    //myc_point point2[1] = new myc_point();
-    
-    myc_map(int szx,int szy ){
+    int sizex,sizey;
+    myc_map(int szx,int szy ){ //
         point = new myc_point[szx][szy];
+        this.sizex=szx;
+        this.sizey=szy;
     }
     myc_map(){
-        point = new myc_point[10][10];
+        point = new myc_point[256][256];
+        this.sizex=256;
+        this.sizey=256;
     }
+    void surface(int segm){
+        Random random = new Random();
+        int xsegm,ysegm,x,y,i,j;
+        xsegm=sizex/segm;
+        ysegm=sizey/segm;
+        //this.point[1][1].typeground=1;
+        for(i=0;i<segm;i++){
+            for(j=0;j<segm;j++){
+                int tg=random.nextInt(4);
+                for(x=i*xsegm;x<((i+1)*xsegm);x++){
+                    for(y=j*ysegm;y<((j+1)*ysegm);y++){
+                        this.point[x][y].typeground=tg;
+                    }
+                }
+            }
+        }
+    }
+    
+    
 }
