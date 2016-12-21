@@ -10,8 +10,10 @@ package myP;
  * @author azhidkov
  */
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
+import javax.swing.*;
+import java.util.Random;
+
 
 public class myF extends javax.swing.JFrame {
 
@@ -23,6 +25,9 @@ public class myF extends javax.swing.JFrame {
     public myF() {
         initComponents();
         map.surface(20);
+        map.grounding(20);
+        map.water(10);
+        map.freeze(20);
     }
 
     /**
@@ -38,6 +43,13 @@ public class myF extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,10 +76,44 @@ public class myF extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jPanel1);
 
-        jButton2.setText("Ландшафт");
+        jButton2.setText("Осушить");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Свет:0");
+
+        jButton3.setText("Свет");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jTextField1.setText("jTextField1");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Заморозить");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Химия:");
+
+        jLabel3.setText("Сахар:");
+
+        jButton5.setText("Заводнить");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -78,13 +124,27 @@ public class myF extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(2, 2, 2)
                         .addComponent(jButton2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5)
+                        .addGap(46, 46, 46)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addGap(53, 53, 53)
+                        .addComponent(jLabel2)
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel1)
+                        .addGap(55, 55, 55))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(jTextField1)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,9 +152,17 @@ public class myF extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jButton5))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -106,20 +174,38 @@ public class myF extends javax.swing.JFrame {
         //myc_point[][] tmaps = new myc_point[100][100];
         int SCALESIZE=2;
         Graphics g = jPanel1.getGraphics();
-        for(int i=0; i<(map.sizex)*SCALESIZE; i+=SCALESIZE){
-            for (int j=0;j<(map.sizey)*SCALESIZE;j+=SCALESIZE){
-                switch(map.point[i/SCALESIZE][j/SCALESIZE].typeground){
+        for(int i=0; i<(map.sizex); i++){
+            for (int j=0;j<(map.sizey);j++){
+                switch(map.point[i][j].typeground){ //рисуем поверхность
                     case 0:
                         g.setColor(Color.lightGray);
                         break;
                     case 1:
-                        g.setColor(Color.GREEN);
+                        g.setColor(new Color(200,100,0));
                         break;
                     case 2:
                         g.setColor(Color.BLUE);
                         break;
+                    default:
+                        g.setColor(Color.BLACK);
                 }
-                g.fillRect(i, j, SCALESIZE, SCALESIZE);
+                g.fillRect(i*SCALESIZE, j*SCALESIZE, SCALESIZE, SCALESIZE);
+                
+                switch(map.point[i][j].typeobj){ // рисуем объекты на поверхности
+                    case 1:
+                        g.setColor(Color.YELLOW);
+                        g.fillRect(i*SCALESIZE, j*SCALESIZE, SCALESIZE, SCALESIZE);
+                        break;
+                    case 2:
+                        g.setColor(Color.GREEN);
+                        g.fillRect(i*SCALESIZE, j*SCALESIZE, SCALESIZE, SCALESIZE);
+                        break;
+                    case 3:
+                        g.setColor(Color.ORANGE);
+                        g.fillRect(i*SCALESIZE, j*SCALESIZE, SCALESIZE, SCALESIZE);
+                        break;
+                }
+                
             }
         }
         
@@ -127,8 +213,37 @@ public class myF extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        map.surface(20);
+        //map.surface(20);
+        map.grounding(20);
+        //map.water(20);
+        //map.freeze(20);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        //DisplayPanel canvas;
+        map.sollar(10);
+        map.sugar(4);
+        jLabel1.setText("Свет: "+map.summLIGHT);
+        jLabel2.setText("Химия: "+map.summCHEM);
+        jLabel3.setText("Сахар: "+map.summSUGAR);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        //map.river(100, 100, 250, 2);
+        map.freeze(30);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        map.water(50);
+        //jTextField1.setText(map.river(50, 50, 4, 2));
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -168,7 +283,14 @@ public class myF extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

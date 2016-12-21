@@ -12,5 +12,6 @@ package myP;
 public class myc_point {
     int typeground;
     int typeobj;
-    int volume;    
+    int volume;
+    int bakteri;
 }
