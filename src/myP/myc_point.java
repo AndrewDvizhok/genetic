@@ -13,5 +13,5 @@ public class myc_point {
     int typeground;
     int typeobj;
     int volume;
-    int bakteri;
+    String bakteri;
 }

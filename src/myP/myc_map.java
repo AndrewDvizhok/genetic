@@ -15,11 +15,15 @@ public class myc_map {
     int summLIGHT;
     int summCHEM;
     int summSUGAR;
+    int summGROUND;
+    int summICE;
+    int summWATER;
     myc_map(int szx,int szy ){ //
         point = new myc_point[szx][szy];
         for(int i=0; i<szx; i++){
             for (int j=0;j<szy;j++){
                 point[i][j]=new myc_point();
+                this.setground(i, j, -1);//пока почва не определена
             }
         }
         this.sizex=szx;
@@ -30,6 +34,7 @@ public class myc_map {
         for(int i=0; i<256; i++){
             for (int j=0;j<256;j++){
                 point[i][j]=new myc_point();
+                this.setground(i, j, -1);//пока почва не определена
             }
         }
         this.sizex=256;
@@ -48,7 +53,7 @@ public class myc_map {
                 else tg=1+random.nextInt(2);
                 for(x=i*xsegm;x<((i+1)*xsegm);x++){
                     for(y=j*ysegm;y<((j+1)*ysegm);y++){
-                        this.point[x][y].typeground=tg;
+                        this.setground(x, y, tg);
                     }
                 }
             }
@@ -181,9 +186,26 @@ public class myc_map {
         if(y>=this.sizey)y-=this.sizey;
         if(x<0)x+=this.sizex;
         if(y<0)y+=this.sizey;
+        switch(tg){ //подсчитаем количество типов поверхности
+            case 0:
+                if(this.getground(x, y)==1){this.summGROUND--;this.summICE++;} //меньше земли больше льда
+                if(this.getground(x, y)==2){this.summWATER--;this.summICE++;}//меншье воды больше льда
+                if(this.getground(x, y)==-1){this.summICE++;} // если каким-то чудом пропустили ячейку
+                break;
+            case 1:
+                if(this.getground(x, y)==0){this.summGROUND++;this.summICE--;} //меньше льда больше земли
+                if(this.getground(x, y)==2){this.summWATER--;this.summGROUND++;}//меншье воды больше земли
+                if(this.getground(x, y)==-1){this.summGROUND++;} // если каким-то чудом пропустили ячейку
+                break;
+            case 2:
+                if(this.getground(x, y)==1){this.summGROUND--;this.summWATER++;} //меньше земли больше воды
+                if(this.getground(x, y)==0){this.summICE--;this.summWATER++;}//меншье льда больше воды
+                if(this.getground(x, y)==-1){this.summWATER++;} // если каким-то чудом пропустили ячейку
+                break;
+        }
         this.point[x][y].typeground=tg;
     }
-    int getground(int x, int y){
+    int getground(int x, int y){ // проверяем тип поверхности по координатам
         if(x>=this.sizex)x-=this.sizex;
         if(y>=this.sizey)y-=this.sizey;
         if(x<0)x+=this.sizex;

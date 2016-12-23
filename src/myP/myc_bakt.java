@@ -11,7 +11,13 @@ package myP;
  */
 public class myc_bakt {
     int energy;
+    String ID;
     int lifetime;
     String DNK;
     int posx,posy;
+    myc_bakt(int x, int y,int enrg, myc_map map){
+       this.energy=enrg;
+       this.lifetime=0;
+       map.point[x][y].bakteri=this.ID;
+    }
 }
