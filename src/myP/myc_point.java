@@ -10,8 +10,8 @@ package myP;
  * @author azhidkov
  */
 public class myc_point {
-    int typeground;
-    int typeobj;
+    int typeground;//тип грунта 0-снег,1-земля,2-вода
+    int typeobj;// тип объекта 0-пусто, 1-свет,2-химия,3-сахар,4-кислота
     int volume;
-    String bakteri;
+    int bakteri;
 }

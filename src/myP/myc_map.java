@@ -60,7 +60,7 @@ public class myc_map {
         }
         
     }
-    void sollar(int energy){
+    void sollar(int energy){//добавляем на карту объеты света - 1
         Random random = new Random();
         for(int i=0; i<this.sizex; i++){
             for (int j=0;j<this.sizey;j++){
@@ -74,7 +74,7 @@ public class myc_map {
             }
         }
     }
-    void sugar(int energy){
+    void sugar(int energy){//добавляем на карту сахар - тип 3 и химию тип 2
         Random random = new Random();
         for(int n=0; n<=energy; n++){
             int x=random.nextInt(this.sizex-this.sizex/18);
@@ -206,12 +206,36 @@ public class myc_map {
         this.point[x][y].typeground=tg;
     }
     int getground(int x, int y){ // проверяем тип поверхности по координатам
+        return this.point[this.safeX(x)][this.safeY(y)].typeground;
+    }
+    
+    int[] getobj(int x, int y){ // проверяем объект,0-тип обеъкта, 1-объем объекта
+        int [] obj = new int[2];
         if(x>=this.sizex)x-=this.sizex;
         if(y>=this.sizey)y-=this.sizey;
         if(x<0)x+=this.sizex;
         if(y<0)y+=this.sizey;
-        return this.point[x][y].typeground;
+        obj[0]=this.point[this.safeX(x)][this.safeY(y)].typeobj;
+        obj[0]=this.point[this.safeX(x)][this.safeY(y)].volume;
+        return obj;
     }
   
-    
+    void setobj(int x, int y,int to,int vlm){ //безопасно устанавливает тип объекта
+        this.point[this.safeX(x)][this.safeY(y)].typeobj=to;
+        this.point[this.safeX(x)][this.safeY(y)].volume=vlm;
+    }
+    int getbakt(int x, int y){ //возвращает инфу о бактерии 
+        int[] obj = new int[2];
+        return this.point[this.safeX(x)][this.safeY(y)].bakteri;
+    }
+    int safeX(int x){
+        if(x>=this.sizex)x-=this.sizex;
+        if(x<0)x+=this.sizex;
+        return x;
+    }
+    int safeY(int x){
+        if(x>=this.sizey)x-=this.sizey;
+        if(x<0)x+=this.sizey;
+        return x;
+    }
 }

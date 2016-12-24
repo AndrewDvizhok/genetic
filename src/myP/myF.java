@@ -19,9 +19,12 @@ import java.sql.DriverManager;
 
 public class myF extends javax.swing.JFrame {
 
-    myc_map map =new myc_map(800,400); // создадим карту
+    myc_map map =new myc_map(400,200); // создадим карту
     Connection conn = null; // для БД
-    
+    myc_bakt KARL = new myc_bakt();
+    int SCALESIZE=2;
+    char[] dnkkarl = {0,1,0};
+    //Graphics g = new Graphics();   
     /**
      * Creates new form myF
      */
@@ -31,6 +34,13 @@ public class myF extends javax.swing.JFrame {
         map.grounding(20);
         map.water(10);
         map.freeze(20);
+        KARL.myc_bakt(100, 100, 1000, map);
+        KARL.DNK.add(dnkkarl);
+        dnkkarl[1]=10;
+        dnkkarl[2]=1;
+        KARL.DNK.add(dnkkarl);
+        KARL.lungs=true;
+        //KARL.gills=true;
     }
 
     /**
@@ -83,7 +93,7 @@ public class myF extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jPanel1);
 
-        jButton2.setText("Осушить");
+        jButton2.setText("Поверхность");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -106,7 +116,7 @@ public class myF extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Заморозить");
+        jButton4.setText("Карл");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -161,7 +171,7 @@ public class myF extends javax.swing.JFrame {
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
@@ -209,7 +219,7 @@ public class myF extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //myc_point[][] tmaps = new myc_point[100][100];
-        int SCALESIZE=2;
+        
         Graphics g = jPanel1.getGraphics();
         for(int i=0; i<(map.sizex); i++){
             for (int j=0;j<(map.sizey);j++){
@@ -254,10 +264,10 @@ public class myF extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        //map.surface(20);
-        map.grounding(10);
-        //map.water(20);
-        //map.freeze(20);
+        map.surface(20);
+        map.grounding(20);
+        map.water(20);
+        map.freeze(20);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -272,8 +282,14 @@ public class myF extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        //map.river(100, 100, 250, 2);
-        map.freeze(10);
+        KARL.work(map);
+        jTextField1.setText("KARL energy: "+KARL.energy); 
+        Graphics g = jPanel1.getGraphics();
+        g.setColor(Color.red);
+        g.fillOval(KARL.posx*SCALESIZE, KARL.posy*SCALESIZE, 2, 2);
+        //System.out.println("Karl x "+KARL.posx);
+        //System.out.println("Karl y "+KARL.posy);
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
