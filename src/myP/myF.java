@@ -23,7 +23,7 @@ public class myF extends javax.swing.JFrame {
     Connection conn = null; // для БД
     myc_bakt KARL = new myc_bakt();
     int SCALESIZE=2;
-    int[] dnkkarl = {1,5,-5,0};
+    char[] dnkkarl = {1,25,7,0};
     //Graphics g = new Graphics();   
     /**
      * Creates new form myF

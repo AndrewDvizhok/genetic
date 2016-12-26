@@ -179,20 +179,36 @@ public class myc_bakt {
     }
     int moves(myc_map map, int x,int y){//перемеаститься на датчик xy
         map.point[this.posx][this.posy].bakteri=0;//уходим с теущей клетки
+        x-=20; y-=20; //преобразуем координаты
+        int nx=x,ny=y;
         switch(this.rotate){//вращение бактерии(где находится морда) 0-вверх,1-вправо,2-вниз,3-влев
             case 0:
-                x+=this.posx;
-                y+=this.posy;
+                nx+=this.posx;
+                ny+=this.posy;//перешли к абсолютным координатам
                 break;
-            case 1:
-                //rotated_point.x = point.x * cos(angle) - point.y * sin(angle);
-                //rotated_point.y = point.x * sin(angle) + point.y * cos(angle);
+            case 1://повернули вправо
+                nx=-y;//rotated_point.x = point.x * cos(angle) - point.y * sin(angle);
+                ny=x;//rotated_point.y = point.x * sin(angle) + point.y * cos(angle);
+                nx+=this.posx;//перешли к абсолютным координатам
+                ny+=this.posy;
+                break;
+            case 2:
+                nx=-x;
+                ny=-y;
+                nx+=this.posx;//перешли к абсолютным координатам
+                ny+=this.posy;
+                break;
+            case 3:
+                nx=y;
+                ny=-x;
+                nx+=this.posx;//перешли к абсолютным координатам
+                ny+=this.posy;
                 break;
         }
         
-        this.posx=map.safeX(x);
-        this.posy=map.safeY(y);
-        int uron = this.prisemove(map, map.safeX(x), map.safeY(y));
+        this.posx=map.safeX(nx);
+        this.posy=map.safeY(ny);
+        int uron = this.prisemove(map, map.safeX(nx), map.safeY(ny));
         return uron;
     }
     
