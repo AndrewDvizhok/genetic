@@ -49,40 +49,48 @@ public class myc_bakt {
         if(this.lungs)abilities++;
         if(this.gills)abilities++;
         if(this.sugar)abilities++;
-        uron+=Math.pow(abilities, 3);//1,8,27,64,125,216,343
-        System.out.println("uron= "+uron);
+        uron+=Math.pow(abilities, 2);//1,8,27,64,125,216,343//1,4,9,16,25,36,49
+        //System.out.println("uron= "+uron);
+        uron+=this.Sensor.size();//плата за сенсоры
+        
         char[] kodon = new char[6];
         this.lifetime++;//живем циклы.
         //Выполняем программу записанную в ДНК
         for(int i=0;i<this.DNK.size();i++){
             //чтение кодона
-            kodon = (char[])DNK.get(i);
+            System.out.println("kodon["+i+"]="+this.DNK.get(i));
+            kodon = (char[])this.DNK.get(i);
+            //System.out.println("kodon["+i+"]="+(int)kodon[0]);
             
             switch(kodon[0]){
                 case 0://MOVE d G //программа передвижения
-                    //this.prisemove(map, i, i)
-                    //System.out.println("uron= "+this.move(map, kodon[1]));
                     this.energy-=this.move(map, kodon[1]);//перешли в новую точку
-                    //System.out.println("uron= "+this.move(map, kodon[1]));
-                    //System.out.println("Kodon прочитался!!"+i);
                     if(kodon[2]>i)i=kodon[2]; //переходим к следующему кодону
-                    
                     //System.out.println(this.energy);
                     break;
-                case 3://RT r G
+                case 1: //MOVES xy G перемещение на датчик xy
+                    this.energy-=this.moves(map, kodon[1], kodon[2]);
+                    System.out.println("kodon1:"+kodon[1]+"; 2:"+kodon[2]);
+                    if(kodon[3]>i)i=kodon[3]; //переходим к следующему кодону
+                    break;
+                case 3://RT r G //программа поворота
                     this.energy-=this.prisemove(map, this.posx, this.posx);
+                    //System.out.println("kodon ok= "+(int)kodon[1]);
                     switch(kodon[1]){//0-вправо 1-влево 2-развернуться
                         case 0:
                             if(this.rotate==3)this.rotate=0;
                             else this.rotate++;
+                            break;
                         case 1:
                             if(this.rotate==0)this.rotate=3;
                             else this.rotate--;
+                            break;
                         case 2:
                             if(this.rotate==0)this.rotate=2;
                             if(this.rotate==1)this.rotate=3;
                             if(this.rotate==2)this.rotate=0;
                             if(this.rotate==3)this.rotate=1;
+                            break;
                     }
                     break;
             }
@@ -147,7 +155,7 @@ public class myc_bakt {
         int x=this.posx,y=this.posy;
         map.point[this.posx][this.posy].bakteri=0;//уходим с теущей клетки
         
-        switch(this.rotate){//вращение бактерии(где находится морда) 0-вверх,1-вправо,2-влево,3-вниз
+        switch(this.rotate){//вращение бактерии(где находится морда) 0-вверх,1-вправо,2-вниз,3-влев
             case 0:
                 y-=dist;
                 break;
@@ -156,10 +164,10 @@ public class myc_bakt {
                 //System.out.println("Karl x "+x);
                 break;
             case 2:
-                x-=dist;
+                y+=dist;
                 break;
             case 3:
-                y+=dist;
+                x-=dist;
                 break;
         }
         int uron = this.prisemove(map, map.safeX(x), map.safeY(y));
@@ -169,6 +177,25 @@ public class myc_bakt {
         this.posy=map.safeY(y);//ушли в новую точку
         return uron;
     }
+    int moves(myc_map map, int x,int y){//перемеаститься на датчик xy
+        map.point[this.posx][this.posy].bakteri=0;//уходим с теущей клетки
+        switch(this.rotate){//вращение бактерии(где находится морда) 0-вверх,1-вправо,2-вниз,3-влев
+            case 0:
+                x+=this.posx;
+                y+=this.posy;
+                break;
+            case 1:
+                //rotated_point.x = point.x * cos(angle) - point.y * sin(angle);
+                //rotated_point.y = point.x * sin(angle) + point.y * cos(angle);
+                break;
+        }
+        
+        this.posx=map.safeX(x);
+        this.posy=map.safeY(y);
+        int uron = this.prisemove(map, map.safeX(x), map.safeY(y));
+        return uron;
+    }
+    
     
     
 }

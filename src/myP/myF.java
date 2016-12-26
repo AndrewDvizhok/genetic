@@ -23,7 +23,7 @@ public class myF extends javax.swing.JFrame {
     Connection conn = null; // для БД
     myc_bakt KARL = new myc_bakt();
     int SCALESIZE=2;
-    char[] dnkkarl = {0,1,0};
+    int[] dnkkarl = {1,5,-5,0};
     //Graphics g = new Graphics();   
     /**
      * Creates new form myF
@@ -36,10 +36,10 @@ public class myF extends javax.swing.JFrame {
         map.freeze(20);
         KARL.myc_bakt(100, 100, 1000, map);
         KARL.DNK.add(dnkkarl);
-        dnkkarl[1]=10;
-        dnkkarl[2]=1;
-        KARL.DNK.add(dnkkarl);
+        //int[] sen={5,-5};//char[] dnkkarl2={3,0,2};
+        //KARL.Sensor.add(sen);
         KARL.lungs=true;
+        KARL.rotate=3;
         //KARL.gills=true;
     }
 
@@ -286,8 +286,8 @@ public class myF extends javax.swing.JFrame {
         jTextField1.setText("KARL energy: "+KARL.energy); 
         Graphics g = jPanel1.getGraphics();
         g.setColor(Color.red);
-        g.fillOval(KARL.posx*SCALESIZE, KARL.posy*SCALESIZE, 2, 2);
-        //System.out.println("Karl x "+KARL.posx);
+        g.fillOval(KARL.posx*SCALESIZE, KARL.posy*SCALESIZE, 10, 10);
+        System.out.println("Karl r "+(int)KARL.rotate);
         //System.out.println("Karl y "+KARL.posy);
         
     }//GEN-LAST:event_jButton4ActionPerformed
