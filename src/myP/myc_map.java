@@ -9,7 +9,7 @@ import java.util.Random;
  *
  * @author azhidkov
  */
-public class myc_map {
+public final class myc_map {
     myc_point[][] point;
     int sizex,sizey;
     int summLIGHT;
@@ -24,6 +24,8 @@ public class myc_map {
             for (int j=0;j<szy;j++){
                 point[i][j]=new myc_point();
                 this.setground(i, j, -1);//пока почва не определена
+                this.setbakt(i,j,-1);//бактерий нет
+                //this.
             }
         }
         this.sizex=szx;
@@ -216,7 +218,7 @@ public class myc_map {
         if(x<0)x+=this.sizex;
         if(y<0)y+=this.sizey;
         obj[0]=this.point[this.safeX(x)][this.safeY(y)].typeobj;
-        obj[0]=this.point[this.safeX(x)][this.safeY(y)].volume;
+        obj[1]=this.point[this.safeX(x)][this.safeY(y)].volume;
         return obj;
     }
   
@@ -225,8 +227,10 @@ public class myc_map {
         this.point[this.safeX(x)][this.safeY(y)].volume=vlm;
     }
     int getbakt(int x, int y){ //возвращает инфу о бактерии 
-        int[] obj = new int[2];
         return this.point[this.safeX(x)][this.safeY(y)].bakteri;
+    }
+    void setbakt(int x, int y, int id){
+        this.point[this.safeX(x)][this.safeY(y)].bakteri=id;
     }
     int safeX(int x){
         if(x>=this.sizex)x-=this.sizex;

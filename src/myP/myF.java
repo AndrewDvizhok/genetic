@@ -21,9 +21,11 @@ public class myF extends javax.swing.JFrame {
 
     myc_map map =new myc_map(400,200); // создадим карту
     Connection conn = null; // для БД
-    myc_bakt KARL = new myc_bakt();
+    myc_bakt KARL[]= new myc_bakt[10];
+    //myc_bakt KARL[0] = new myc_bakt(); 
     int SCALESIZE=2;
-    char[] dnkkarl = {1,25,7,0};
+    char[] dnkkarl = {0,5,0};
+    char[] eat = {2,1};
     //Graphics g = new Graphics();   
     /**
      * Creates new form myF
@@ -34,12 +36,15 @@ public class myF extends javax.swing.JFrame {
         map.grounding(20);
         map.water(10);
         map.freeze(20);
-        KARL.myc_bakt(100, 100, 1000, map);
-        KARL.DNK.add(dnkkarl);
-        //int[] sen={5,-5};//char[] dnkkarl2={3,0,2};
-        //KARL.Sensor.add(sen);
-        KARL.lungs=true;
-        KARL.rotate=3;
+        KARL[0] = new myc_bakt();
+        KARL[0].myc_bakt(100, 100, 1000, map);
+        KARL[0].DNK.add(dnkkarl);
+        KARL[0].DNK.add(eat);
+        int[] sen={5,-5};//char[] dnkkarl2={3,0,2};
+        KARL[0].Sensor.add(sen);
+        KARL[0].light=true;
+        KARL[0].lungs=true;
+        KARL[0].rotate=0;
         //KARL.gills=true;
     }
 
@@ -282,12 +287,12 @@ public class myF extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        KARL.work(map);
-        jTextField1.setText("KARL energy: "+KARL.energy); 
+        KARL[0].work(map,KARL);
+        jTextField1.setText("KARL energy: "+KARL[0].energy); 
         Graphics g = jPanel1.getGraphics();
         g.setColor(Color.red);
-        g.fillOval(KARL.posx*SCALESIZE, KARL.posy*SCALESIZE, 10, 10);
-        System.out.println("Karl r "+(int)KARL.rotate);
+        g.fillOval(KARL[0].posx*SCALESIZE, KARL[0].posy*SCALESIZE, 10, 10);
+        //System.out.println("Karl r "+(int)KARL[0].rotate);
         //System.out.println("Karl y "+KARL.posy);
         
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -314,6 +319,8 @@ public class myF extends javax.swing.JFrame {
             System.exit(0);
         }
         jTextField1.setText("DB open!");
+        
+        
     }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
